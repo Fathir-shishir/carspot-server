@@ -2,7 +2,7 @@ const express = require('express')
 const app = express()
 const cors = require('cors')
 require('dotenv').config()
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, CommandStartedEvent, ObjectId } = require('mongodb');
 
 app.use(cors())
 app.use(express.json())
@@ -25,6 +25,18 @@ async function run() {
     const services = await cursor.toArray();
     res.send(services)
     })
+
+    app.get('/service/:id',async(req,res)=>{
+      const id = req.params.id
+      const query = {_id:ObjectId}
+      const service = await serviceCollection.findOne(query)
+      res.send(service)
+    })
+    app.post("/service", async (req, res) => {
+      const newItem = req.body;
+      const result = await serviceCollection.insertOne(newItem);
+      res.send(result);
+    });
     console.log("connected")
 
   } finally {
