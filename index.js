@@ -16,7 +16,9 @@ app.get('/', (req, res) => {
 
 // --
 //AUTH
-
+app.get('/hero', (req, res) => {
+  res.send('Hello hero ')
+})
 app.post("/login",(req,res)=>{
   const user=req.body;
   const accessToken=jwt.sign(user,process.env.ACCESS_TOKEN_SECRET,{
