@@ -91,6 +91,20 @@ function verifyJwt(req,res,next){
   })
   
 }
+app.put("/restock/:id",async(req,res)=>{
+  const id=req.params.id;
+  const updatedQuantity=req.body;
+  console.log(updatedQuantity)
+  const filter={_id:ObjectId(id)}
+  const options={upsert:true}
+  const updatedDoc={
+      $set:{
+          quantity:updatedQuantity.newQuantity
+      }
+  };
+  const result=await serviceCollection.updateOne(filter,updatedDoc,options);
+  res.send(result);
+})
 
 // ___
 //Load specific items filtering email
